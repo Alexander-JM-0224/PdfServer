@@ -1,0 +1,37 @@
+﻿@page "/test"
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<button class="btn btn-primary" @onclick="SavePdf">Go to savepdf</button>
+<button class="btn btn-primary" @onclick="Henk">Go to weather</button>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    [Inject]
+    public HtmlRenderService HtmlRenderService { get; set; }
+
+    private async void SavePdf()
+    {
+        var result = await HtmlRenderService.RenderServiceCheckReport(0);
+        using var writer = new BinaryWriter(File.OpenWrite(@"C:\Temp\file.pdf"));
+        writer.Write(result);
+    }
+
+    private void Henk()
+    {
+        var h = "Henk";
+    }
+
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
