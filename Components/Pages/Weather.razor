@@ -1,4 +1,5 @@
 ﻿@page "/weather"
+@using Blazorise
 @attribute [StreamRendering]
 
 <PageTitle>Weather</PageTitle>
@@ -34,6 +35,43 @@ else
             }
         </tbody>
     </table>
+
+    <Row Border="Border.Is2">
+        <Column>1</Column>
+        <Column>2</Column>
+        <Column>3</Column>
+        <Column>4</Column>
+    </Row>
+    <Row>
+        <Column>4a</Column>
+        <Column>2a</Column>
+        <Column>3a</Column>
+        <Column>4a</Column>
+    </Row>
+
+    <Card>
+        <CardHeader>
+            Card header
+        </CardHeader>
+        <CardBody>
+            Card body
+        </CardBody>
+        <CardFooter>
+            Card footer
+        </CardFooter>
+    </Card>
+    <Card>
+        <CardHeader>
+            Card header
+        </CardHeader>
+        <CardBody>
+            Card body
+        </CardBody>
+        <CardFooter>
+            Card footer
+        </CardFooter>
+    </Card>
+
 }
 
 @code {

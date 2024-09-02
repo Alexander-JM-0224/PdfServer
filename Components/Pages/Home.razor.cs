@@ -7,10 +7,11 @@ namespace PdfServer.Components.Pages
 
         public HtmlRenderService HtmlRenderService { get; set; }
 
-        private async void SavePdf()
+
+
+        private void SavePdf2()
         {
-            var abu = "abu";
-            var result = await HtmlRenderService.RenderServiceCheckReport(0);
+            var result = HtmlRenderService.TakeScreenshot("www.google.nl");
         }
 
         private void Henk()

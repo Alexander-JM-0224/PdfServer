@@ -18,9 +18,10 @@ Welcome to your new app.
 
     private async void SavePdf()
     {
-        var result = await HtmlRenderService.RenderServiceCheckReport(0);
-        using var writer = new BinaryWriter(File.OpenWrite(@"C:\Temp\file.pdf"));
-        writer.Write(result);
+        HtmlRenderService.TakePdfScreenshot();
+        //var result = await HtmlRenderService.RenderServiceCheckReport(0);
+        // using var writer = new BinaryWriter(File.OpenWrite(@"C:\Temp\file.pdf"));
+        // writer.Write(result);
     }
 
     private void Henk()

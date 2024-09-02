@@ -85,7 +85,7 @@ namespace PdfServer
 
                 var result = await GenerateBlazor(html);
 
-                return result;
+                return result; 
             }
             catch (Exception ex)
             {
@@ -102,12 +102,11 @@ namespace PdfServer
             new LaunchOptions
                 {
                     Headless = true,
-                    ExecutablePath = bf.GetExecutablePath(Chrome.DefaultBuildId)
+                    ExecutablePath = bf.GetExecutablePath(Chrome.DefaultBuildId),
                 });
             await using (var page = await browser.NewPageAsync())
             {
                 await page.SetContentAsync(@$"{content}");
-                //var contentSize = await page.EvaluateFunctionAsync<dynamic>("() => { return { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight }; }");
 
                 pdfBytes = await page.PdfDataAsync(new PdfOptions()
                 {
@@ -116,6 +115,51 @@ namespace PdfServer
             };
 
             return pdfBytes;
+        }
+
+        public async void TakePdfScreenshot()
+        {
+            try
+            {
+                var browserFetcher = InitializeBrowser();
+                await using var browser = await Puppeteer.LaunchAsync(
+                    new LaunchOptions { Headless = true });
+                await using var page = await browser.NewPageAsync();
+                await page.GoToAsync("http://www.google.com");
+                await page.ScreenshotAsync(@"C:\Temp\kfafvakjvg.pdf");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
+        public async Task<byte[]> TakeScreenshot(string url)
+        {
+            try
+            {
+                var bf = await InitializeBrowser();
+                byte[] pdfBytes = null;
+                await using var browser = await PuppeteerSharp.Puppeteer.LaunchAsync(
+                    new LaunchOptions
+                    {
+                        Headless = true,
+                    });
+                await using var page = await browser.NewPageAsync();
+                await page.GoToAsync($"{url}");
+                await page.ScreenshotAsync(@"C:\Temp\Pdfpdfddfd.pdf");
+                pdfBytes = await page.ScreenshotDataAsync(new ScreenshotOptions()
+                {
+                    FullPage = true,
+                });
+                return pdfBytes;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         private async Task<BrowserFetcher> InitializeBrowser()
