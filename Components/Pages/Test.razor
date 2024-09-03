@@ -1,27 +1,33 @@
 ﻿@page "/test"
+@page "/"
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Puppeteer Google page to PDF test!</h1>
 
-Welcome to your new app.
 
-<button class="btn btn-primary" @onclick="SavePdf">Go to savepdf</button>
-<button class="btn btn-primary" @onclick="Henk">Go to weather</button>
+<button class="btn btn-primary" @onclick="SavePdf">Crate pdf</button>
+@* <button class="btn btn-primary" @onclick="Henk">Go to weather</button>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button> *@
+<br />
+@_finishedMessage
 
 @code {
     [Inject]
     public HtmlRenderService HtmlRenderService { get; set; }
 
+    private string _finishedMessage = string.Empty;
+
     private async void SavePdf()
     {
-        HtmlRenderService.TakePdfScreenshot();
+        var fileName = await HtmlRenderService.TakePdfScreenshot();
         //var result = await HtmlRenderService.RenderServiceCheckReport(0);
         // using var writer = new BinaryWriter(File.OpenWrite(@"C:\Temp\file.pdf"));
         // writer.Write(result);
+        _finishedMessage = $"Pdf saved as {fileName}";
+        StateHasChanged();
     }
 
     private void Henk()

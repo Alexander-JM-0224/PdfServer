@@ -85,7 +85,7 @@ namespace PdfServer
 
                 var result = await GenerateBlazor(html);
 
-                return result; 
+                return result;
             }
             catch (Exception ex)
             {
@@ -100,10 +100,10 @@ namespace PdfServer
             byte[] pdfBytes = null;
             await using var browser = await PuppeteerSharp.Puppeteer.LaunchAsync(
             new LaunchOptions
-                {
-                    Headless = true,
-                    ExecutablePath = bf.GetExecutablePath(Chrome.DefaultBuildId),
-                });
+            {
+                Headless = true,
+                ExecutablePath = bf.GetExecutablePath(Chrome.DefaultBuildId),
+            });
             await using (var page = await browser.NewPageAsync())
             {
                 await page.SetContentAsync(@$"{content}");
@@ -117,16 +117,20 @@ namespace PdfServer
             return pdfBytes;
         }
 
-        public async void TakePdfScreenshot()
+        public async Task<string> TakePdfScreenshot()
         {
             try
             {
-                var browserFetcher = InitializeBrowser();
-                await using var browser = await Puppeteer.LaunchAsync(
-                    new LaunchOptions { Headless = true });
-                await using var page = await browser.NewPageAsync();
+                using var browserFetcher = new BrowserFetcher();
+                await browserFetcher.DownloadAsync();
+                //var browserFetcher = InitializeBrowser();
+                var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true });
+                var page = await browser.NewPageAsync();
                 await page.GoToAsync("http://www.google.com");
-                await page.ScreenshotAsync(@"C:\Temp\kfafvakjvg.pdf");
+                //await page.GoToAsync("http://www.jama.nl");
+                string filename = $@"C:\Temp\ggl_{DateTime.Now.ToLocalTime().ToString("yyyy-MM-dd HHmmss")}.pdf";
+                await page.ScreenshotAsync(filename);
+                return filename;
             }
             catch (Exception ex)
             {
